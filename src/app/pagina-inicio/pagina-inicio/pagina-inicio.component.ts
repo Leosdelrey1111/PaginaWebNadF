@@ -18,31 +18,29 @@ export class PaginaInicioComponent {
   ) {}
 
   buscar() {
-    // Validar que al menos un campo esté lleno
-    if (!this.cliente && !this.usuario) {
-      this.errorMessage = 'Al menos uno de los campos debe estar lleno para realizar la búsqueda.';
-      return;  // Si no hay datos en ninguno de los campos, no continuar
+    // Si no se colocan filtros, mostrar todos los datos
+    const queryParams: any = {};
+  
+    if (this.cliente) {
+      queryParams.cliente = this.cliente;
     }
-
-    // Si cliente o usuario están vacíos, los enviamos como arreglo vacío.
-    const queryParams = {
-      cliente: this.cliente ? this.cliente : null,
-      usuario: this.usuario ? this.usuario : null
-    };
-
-    // Limpiar el mensaje de error si la búsqueda es válida
+    if (this.usuario) {
+      queryParams.usuario = this.usuario;
+    }
+  
     this.errorMessage = '';
     
+    // Redirigir con los parámetros adecuados
     this.router.navigate(['/info'], { queryParams });
   }
-
+  
   cancelar() {
     this.cliente = '';
     this.usuario = '';
-    this.errorMessage = '';  // Limpiar el mensaje de error al cancelar
-    // Si se cancela, se envían null o un array vacío según corresponda
-    this.router.navigate(['/info'], {
-      queryParams: { cliente: null, usuario: null }
-    });
+    this.errorMessage = '';
+  
+    // Al cancelar, redirigir con un flag para indicar que se deben limpiar los datos
+    this.router.navigate(['/info'], { queryParams: { cancelar: true } });
   }
+  
 }

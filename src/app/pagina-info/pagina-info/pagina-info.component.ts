@@ -27,39 +27,37 @@ export class PaginaInfoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Al cargar la página, se intentan recuperar los filtros desde sessionStorage
-    const filtrosGuardados = sessionStorage.getItem('filtros');
-    if (filtrosGuardados) {
-      this.filtros = JSON.parse(filtrosGuardados);
-    }
-
-    // Obtener parámetros de la URL y actualizar los filtros si no están vacíos
     this.route.queryParams.subscribe(params => {
-      if (params['cliente']) {
-        this.filtros.cliente = params['cliente'];
+      if (params['cancelar']) {
+        this.tablaDatos = [];  // No mostrar ningún dato si se canceló
+        return;
       }
-      if (params['usuario']) {
-        this.filtros.usuario = params['usuario'];
+  
+      // Si no hay filtros, mostrar todos los datos
+      if (!params['cliente'] && !params['usuario']) {
+        this.filtros = { cliente: '', usuario: '' };
+        this.cargarDatos(true); // Llamamos con `true` para indicar que no hay filtros
+      } else {
+        this.filtros.cliente = params['cliente'] || '';
+        this.filtros.usuario = params['usuario'] || '';
+        this.cargarDatos(false); // Llamamos con `false` para filtrar
       }
-      this.cargarDatos();
     });
-
-    // Cargar datos de clientes y usuarios al inicializar
+  
     this.cargarClientes();
     this.cargarUsuarios();
   }
-
-  private cargarDatos() {
-    const filtrosRequest: FiltrosRequest = {
-      Clientes: this.filtros.cliente ? [this.filtros.cliente] : [],
-      Usuarios: this.filtros.usuario ? [this.filtros.usuario] : []
-    };
-
-    console.log('Filtros enviados:', filtrosRequest);  // Verifica qué filtros se están enviando
-
+  
+  private cargarDatos(mostrarTodos: boolean) {
+    const filtrosRequest: FiltrosRequest = mostrarTodos
+      ? { Clientes: [], Usuarios: [] }  // Obtener todos los datos
+      : {
+          Clientes: this.filtros.cliente ? [this.filtros.cliente] : [],
+          Usuarios: this.filtros.usuario ? [this.filtros.usuario] : []
+        };
+  
     this.reporteService.getReporteFiltrado(filtrosRequest).subscribe({
       next: (data) => {
-        console.log('Datos recibidos:', data);  // Verifica qué datos se están recibiendo
         this.tablaDatos = data;
       },
       error: (err) => {
@@ -67,7 +65,7 @@ export class PaginaInfoComponent implements OnInit {
       }
     });
   }
-
+  
   private cargarClientes() {
     this.reporteService.getClientes().subscribe({
       next: (data) => this.clientes = data,
@@ -85,13 +83,14 @@ export class PaginaInfoComponent implements OnInit {
   limpiarFiltros() {
     this.filtros = { cliente: '', usuario: '' };
     sessionStorage.setItem('filtros', JSON.stringify(this.filtros));  // Guardar los filtros limpios
-    this.cargarDatos();
+    this.cargarDatos(true);  // Mostrar todos los datos
   }
-
+  
   filtrarDatos() {
     sessionStorage.setItem('filtros', JSON.stringify(this.filtros));  // Guardar los filtros actuales
-    this.cargarDatos();
+    this.cargarDatos(false);  // Aplicar filtros
   }
+  
 
   generarReporte() {
     if (this.isGenerating) return;
