@@ -1,0 +1,64 @@
+<div class="container">
+  <!-- Filtros -->
+  <div class="filters">
+      <div class="filter-item">
+          <label for="cliente">Filtrar Cliente:</label>
+          <input [(ngModel)]="filtros.cliente" id="cliente" type="text" placeholder="Cliente">
+      </div>
+
+      <div class="filter-item">
+          <label for="usuario">Filtrar Usuario:</label>
+          <input [(ngModel)]="filtros.usuario" id="usuario" type="text" placeholder="Usuario">
+      </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="buttons">
+      <button (click)="limpiarFiltros()" class="btn btn-secondary">Limpiar</button>
+      <button (click)="filtrarDatos()" class="btn btn-primary">Filtrar</button>
+      <button (click)="generarReporte()" class="btn btn-success" [disabled]="isGenerating">
+          {{ isGenerating ? 'Generando...' : 'Reporte' }}
+      </button>
+  </div>
+
+  <!-- Mensaje de Cargando -->
+  <div *ngIf="mensajeGenerando" class="loading-message">
+      {{ mensajeGenerando }}
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-container">
+      <table>
+          <thead>
+              <tr>
+                  <th>Cliente</th>
+                  <th>Usuario</th>
+                  <th>SOX</th>
+                  <th>SGCE</th>
+                  <th>SGRO</th>
+                  <th>SGOV</th>
+                  <th>SGI</th>
+                  <th>SGC</th>
+                  <th>SIA</th>
+                  <th>SOQVDC</th>
+                  <th>SSCS</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of tablaDatos">
+                  <td>{{ item.cliente }}</td>
+                  <td>{{ item.usuario || 'N/A' }}</td>
+                  <td>{{ item.sox || 'sin rol' }}</td>
+                  <td>{{ item.sgce || 'sin rol' }}</td>
+                  <td>{{ item.sgro || 'sin rol' }}</td>
+                  <td>{{ item.sgov || 'sin rol' }}</td>
+                  <td>{{ item.sgi || 'sin rol' }}</td>
+                  <td>{{ item.sgc || 'sin rol' }}</td>
+                  <td>{{ item.sia || 'sin rol' }}</td>
+                  <td>{{ item.soqvdc || 'sin rol' }}</td>
+                  <td>{{ item.sscs || 'sin rol' }}</td>      
+              </tr>
+          </tbody>        
+      </table>
+  </div>
+</div>

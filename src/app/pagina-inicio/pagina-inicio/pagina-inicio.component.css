@@ -1,0 +1,114 @@
+/* Contenedor principal centrado */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Card con mayor tamaño */
+.card {
+    background-color: white;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 700px; /* Contenedor más grande */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Título centrado */
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de filtros en línea con más separación */
+.filters {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px; /* Mayor separación entre filtros */
+    margin-bottom: 50px; /* Más espacio entre filtros y botones */
+}
+
+/* Input group con inputs más pequeños */
+.input-group {
+    width: 40%; /* Inputs más pequeños */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels con mejor espaciado */
+.input-group label {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+/* Inputs más pequeños */
+.input-group input {
+    width: 100%;
+    padding: 6px 8px; /* Más pequeños */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Contenedor de botones con amplia separación */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 180px; /* Más espacio entre botones */
+}
+
+/* Botones con tamaño mejorado */
+.btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 120px;
+}
+
+/* Botón Buscar (izquierda pero no extremo) */
+.btn-primary {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+}
+
+/* Botón Cancelar (derecha pero sin irse al extremo) */
+.btn-secondary {
+    background-color: transparent;
+    color: #1976d2;
+    border: 1px solid #1976d2;
+}
+/* Estilos para el mensaje de error */
+.alert {
+    padding: 12px 20px;
+    background-color: #f8d7da; /* Fondo suave de error */
+    color: #721c24; /* Color del texto */
+    border: 1px solid #f5c6cb; /* Borde suave */
+    border-radius: 6px;
+    margin-bottom: 20px; /* Espacio entre el mensaje de error y otros elementos */
+    display: flex;
+    align-items: center; /* Alineación del texto y el ícono */
+    font-size: 14px;
+}
+
+.alert i {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    font-size: 18px; /* Tamaño del ícono */
+    color: #721c24; /* Color del ícono */
+}
+
+.alert p {
+    margin: 0;
+}
+
+/* Asegura que el texto y el fondo tengan buen contraste */
+.alert strong {
+    font-weight: bold;
+}

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="card">
+        <h2 class="title">Filtrar Información</h2>
+
+        <!-- Contenedor de filtros en línea -->
+        <div class="filters">
+            <div class="input-group">
+                <label for="cliente">Buscar por Cliente</label>
+                <input type="text" id="cliente" name="cliente" [(ngModel)]="cliente" class="form-control">
+            </div>
+
+            <div class="input-group">
+                <label for="usuario">Buscar por Usuario</label>
+                <input type="text" id="usuario" name="usuario" [(ngModel)]="usuario" class="form-control">
+            </div>
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i> <!-- Ícono de advertencia -->
+            <p><strong>Error:</strong> {{ errorMessage }}</p>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        
+
+        <!-- Contenedor de botones con amplia separación -->
+        <div class="buttons">
+            <button (click)="buscar()" class="btn btn-primary">Buscar</button>
+            <button (click)="cancelar()" class="btn btn-secondary">Cancelar</button>
+        </div>      
+    </div>
+</div>
