@@ -42,11 +42,14 @@ export class PaginaInfoComponent implements OnInit {
         this.filtros.usuario = params['usuario'] || '';
         this.cargarDatos(false); // Llamamos con `false` para filtrar
       }
+      this.cargarClientes();
+      this.cargarUsuarios();
     });
   
     this.cargarClientes();
     this.cargarUsuarios();
   }
+  
   
   private cargarDatos(mostrarTodos: boolean) {
     const filtrosRequest: FiltrosRequest = mostrarTodos
@@ -79,7 +82,6 @@ export class PaginaInfoComponent implements OnInit {
       error: (err) => console.error('Error al cargar usuarios:', err)
     });
   }
-
   limpiarFiltros() {
     this.filtros = { cliente: '', usuario: '' };
     sessionStorage.setItem('filtros', JSON.stringify(this.filtros));  // Guardar los filtros limpios

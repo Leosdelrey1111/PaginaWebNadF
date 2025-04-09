@@ -1,17 +1,26 @@
 <div class="container">
   <!-- Filtros -->
   <div class="filters">
-      <div class="filter-item">
-          <label for="cliente">Filtrar Cliente:</label>
-          <input [(ngModel)]="filtros.cliente" id="cliente" type="text" placeholder="Cliente">
-      </div>
+    <div class="filter-item">
+        <label for="cliente">Filtrar Cliente:</label>
+        <input [(ngModel)]="filtros.cliente" id="cliente" type="text" 
+               list="clientesList" placeholder="Seleccione o escriba cliente"
+               class="form-control">
+        <datalist id="clientesList">
+            <option *ngFor="let c of clientes" [value]="c">{{ c }}</option>
+        </datalist>
+    </div>
 
-      <div class="filter-item">
-          <label for="usuario">Filtrar Usuario:</label>
-          <input [(ngModel)]="filtros.usuario" id="usuario" type="text" placeholder="Usuario">
-      </div>
-  </div>
-
+    <div class="filter-item">
+        <label for="usuario">Filtrar Usuario:</label>
+        <input [(ngModel)]="filtros.usuario" id="usuario" type="text"
+               list="usuariosList" placeholder="Seleccione o escriba usuario"
+               class="form-control">
+        <datalist id="usuariosList">
+            <option *ngFor="let u of usuarios" [value]="u">{{ u }}</option>
+        </datalist>
+    </div>
+</div>
   <!-- Botones -->
   <div class="buttons">
       <button (click)="limpiarFiltros()" class="btn btn-secondary">Limpiar</button>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
 
@@ -7,40 +7,68 @@ import { ReporteService } from '../../services/reporte.service';
   templateUrl: './pagina-inicio.component.html',
   styleUrls: ['./pagina-inicio.component.css']
 })
-export class PaginaInicioComponent {
+export class PaginaInicioComponent implements OnInit {
   cliente: string = '';
   usuario: string = '';
-  errorMessage: string = '';  // Variable para el mensaje de error
+  errorMessage: string = '';
 
-  constructor(
-    private router: Router,
-    private reporteService: ReporteService
-  ) {}
+  clientes: string[] = [];
+  clientesFiltrados: string[] = [];
+
+  usuarios: string[] = [];
+  usuariosFiltrados: string[] = [];
+
+  constructor(private router: Router, private reporteService: ReporteService) {}
+
+  ngOnInit() {
+    this.cargarClientes();
+    this.cargarUsuarios();
+  }
+
+  cargarClientes() {
+    this.reporteService.getClientes().subscribe({
+      next: (data) => {
+        this.clientes = data;
+        this.clientesFiltrados = [...this.clientes]; // Copia inicial
+      },
+      error: (err) => console.error('Error al cargar clientes:', err)
+    });
+  }
+
+  cargarUsuarios() {
+    this.reporteService.getUsuarios().subscribe({
+      next: (data) => {
+        this.usuarios = data;
+        this.usuariosFiltrados = [...this.usuarios]; // Copia inicial
+      },
+      error: (err) => console.error('Error al cargar usuarios:', err)
+    });
+  }
+
+  filtrarClientes() {
+    this.clientesFiltrados = this.clientes.filter(cliente =>
+      cliente.toLowerCase().includes(this.cliente.toLowerCase())
+    );
+  }
+
+  filtrarUsuarios() {
+    this.usuariosFiltrados = this.usuarios.filter(usuario =>
+      usuario.toLowerCase().includes(this.usuario.toLowerCase())
+    );
+  }
 
   buscar() {
-    // Si no se colocan filtros, mostrar todos los datos
     const queryParams: any = {};
-  
-    if (this.cliente) {
-      queryParams.cliente = this.cliente;
-    }
-    if (this.usuario) {
-      queryParams.usuario = this.usuario;
-    }
-  
+    if (this.cliente) queryParams.cliente = this.cliente;
+    if (this.usuario) queryParams.usuario = this.usuario;
     this.errorMessage = '';
-    
-    // Redirigir con los parámetros adecuados
     this.router.navigate(['/info'], { queryParams });
   }
-  
+
   cancelar() {
     this.cliente = '';
     this.usuario = '';
     this.errorMessage = '';
-  
-    // Al cancelar, redirigir con un flag para indicar que se deben limpiar los datos
     this.router.navigate(['/info'], { queryParams: { cancelar: true } });
   }
-  
 }
